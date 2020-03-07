@@ -11,20 +11,24 @@ class ProgramController:
     def startAlgorithm(method, dataCollection, iteretionsNumber):
         citiesList = Loader.loadFile(dataCollection)
         trailsLengths = []
+        if iteretionsNumber == "N":
+            iteretionsNumber = len(citiesList)
 
-        for i in range(int(iteretionsNumber)):
-            if method == "Metoda losowa":
+        if method == "Metoda losowa":
+            for i in range(int(iteretionsNumber)):
                 trail = RandomMethod.runRandomMethod(citiesList)
                 trailsLengths.append(TrailCalculator.getTrailLength(trail))
 
-            if method == "Metoda zachłanna":
-                trail = DeterministicMethod.runDeterministicMethod(citiesList)
+        if method == "Metoda zachłanna":
+            for i in range(int(iteretionsNumber)):
+                trail = DeterministicMethod.runDeterministicMethod(citiesList, i)
                 trailsLengths.append(TrailCalculator.getTrailLength(trail))
 
         ChartController.generateChart(trailsLengths)
 
         if len(trailsLengths) == 1:
-            return round(trailsLengths[0], 2), round(trailsLengths[0], 2), round(trailsLengths[0], 2), round(trailsLengths[0], 2)
+            return round(trailsLengths[0], 2), round(trailsLengths[0], 2), round(trailsLengths[0], 2), round(
+                trailsLengths[0], 2)
         else:
             bestSolution = TrailCalculator.getBestSolution(trailsLengths)
             worstSolution = TrailCalculator.getWorstSolution(trailsLengths)

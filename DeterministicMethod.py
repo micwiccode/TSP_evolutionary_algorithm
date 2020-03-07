@@ -4,8 +4,7 @@ import random
 
 class DeterministicMethod:
 
-    def runDeterministicMethod(citiesList):
-        startCityIndex = int(random.uniform(0, 1) * len(citiesList))
+    def runDeterministicMethod(citiesList, startCityIndex):
         currentCityIndex = startCityIndex
         trail = [citiesList[currentCityIndex]]
         visitedCitiesIndexes = [0]

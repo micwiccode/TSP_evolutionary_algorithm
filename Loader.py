@@ -17,4 +17,5 @@ class Loader:
 
         # Close input file
         dataFile.close()
+        print(citiesList)
         return citiesList
