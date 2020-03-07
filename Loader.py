@@ -1,6 +1,5 @@
 class Loader:
 
-
     def loadFile(file):
         dataFile = open('TSP/' + file + '.tsp', 'r')
         name = dataFile.readline().strip().split()[1]  # NAME

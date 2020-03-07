@@ -1,4 +1,4 @@
-from Main import Main
+from GuiController import GuiController
 
 if __name__ == '__main__':
-    Main.start()
+    GuiController()

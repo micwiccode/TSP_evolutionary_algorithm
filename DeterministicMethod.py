@@ -1,10 +1,12 @@
 from math import sqrt
+import random
 
 
 class DeterministicMethod:
 
     def runDeterministicMethod(citiesList):
-        currentCityIndex = 0
+        startCityIndex = int(random.uniform(0, 1) * len(citiesList))
+        currentCityIndex = startCityIndex
         trail = [citiesList[currentCityIndex]]
         visitedCitiesIndexes = [0]
 
@@ -18,9 +20,8 @@ class DeterministicMethod:
                     ])
             distances.sort()
 
-
             currentCityIndex = distances[0][1]
             visitedCitiesIndexes.append(currentCityIndex)
             trail.append(citiesList[currentCityIndex])
-        trail.append(citiesList[0])
+        trail.append(citiesList[startCityIndex])
         return trail
