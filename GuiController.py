@@ -9,7 +9,7 @@ class GuiController:
         self.window = Tk()
         self.window.title('SI')
         self.window.configure(background='light blue')
-        self.window.geometry('650x750+500+200')
+        self.window.geometry('650x750+500+50')
         self.window.resizable(0, 0)
 
         self.labelTitle = None
@@ -74,9 +74,9 @@ class GuiController:
                                 background='light blue')
         self.labelAlgorithm = Label(window, text='Wybierz metodę:', background='light blue')
         self.comboMethods = Combobox(window)
-        self.comboMethods['values'] = ('Metoda losowa', 'Metoda zachłanna')
+        self.comboMethods['values'] = ('Metoda losowa', 'Metoda zachłanna', 'Algorytm ewolucyjny')
         self.comboMethods.current(0)
-        self.labelIterations = Label(window, text='Liczba iteracji:', background='light blue')
+        self.labelIterations = Label(window, text='Liczba pokoleń:', background='light blue')
         self.labelData = Label(window, text='Wybierz zestaw danych:', background='light blue')
         self.iterations.set('1')
         self.entryIterations = Entry(window, textvariable=self.iterations)
@@ -108,9 +108,6 @@ class GuiController:
         self.popSizeLabel = Label(window,
                                   text='Rozmiar populacji:',
                                   background='light blue')
-        self.genLabel = Label(window,
-                              text='Liczba pokoleń:',
-                              background='light blue')
         self.pxLabel = Label(window,
                              text='Prawd. krzyżowania:',
                              background='light blue')
@@ -123,13 +120,12 @@ class GuiController:
 
         self.evolutionAlgorithmLabel.grid(column=1, row=6, pady=20)
         self.popSizeLabel.grid(column=0, row=7)
-        self.genLabel.grid(column=0, row=8)
         self.pxLabel.grid(column=0, row=9)
         self.pmLabel.grid(column=0, row=10)
         self.tourLabel.grid(column=0, row=11)
 
         self.popSizeEntry = Entry(window, text='Rozmiar populacji:', state='disabled').grid(column=1, row=7)
-        self.genEntry = Entry(window, text='Liczba pokoleń:', state='disabled').grid(column=1, row=8)
+
         self.pxEntry = Entry(window, text='Prawd. krzyżowania:', state='disabled').grid(column=1, row=9)
         self.pmEntry = Entry(window, text='Prawd. mutacji:', state='disabled').grid(column=1, row=10)
         self.tourEntry = Entry(window, text='Rozmiar turnieju:', state='disabled').grid(column=1, row=11)
@@ -190,22 +186,22 @@ class GuiController:
     def startClickListener(self):
         enteredMethod = self.comboMethods.get()
         enteredDataCollection = self.comboData.get()
-        enteredIteretionsNumber = self.entryIterations.get()
+        enterednumberOfGenerations = self.entryIterations.get()
 
-        if self.isValidInput(enteredIteretionsNumber):
+        if self.isValidInput(enterednumberOfGenerations):
             programController = AlgorithmController(enteredMethod, enteredDataCollection)
-            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(enteredIteretionsNumber)
+            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(enterednumberOfGenerations)
             self.bestResultText.set('Najlepszy wynik: ' + str(bestSolution))
             self.worstResultText.set('Najgorszy wynik: ' + str(worstSolution))
             self.avgResultText.set('Średnia: ' + str(avg))
             self.sdResultText.set('Odchylenie standardowe: ' + str(sd))
-            self.timeResultText.set('Czas: ' + str(time))
+            self.timeResultText.set('Czas: ' + str(time) + ' s')
         else:
             self.iterations.set('Błędna wartość')
 
-    def isValidInput(self, enteredIteretionsNumber):
-        if (enteredIteretionsNumber.isdigit() and int(enteredIteretionsNumber) >= 1) or (
-                enteredIteretionsNumber == 'N'):
+    def isValidInput(self, enterednumberOfGenerations):
+        if (enterednumberOfGenerations.isdigit() and int(enterednumberOfGenerations) >= 1) or (
+                enterednumberOfGenerations == 'N'):
             return True
         else:
             return False

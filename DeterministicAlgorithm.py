@@ -4,21 +4,21 @@ from Algorithm import Algorithm
 
 class DeterministicAlgorithm(Algorithm):
 
-    def __init__(self, citiesList, iteretionsNumber, edgeWeightType):
-        super().__init__(citiesList, iteretionsNumber, edgeWeightType)
+    def __init__(self, citiesList, numberOfGenerations, edgeWeightType):
+        super().__init__(citiesList, numberOfGenerations, edgeWeightType)
 
     def start(self):
         super().start()
-        for i in range(int(self.iteretionsNumber)):
+        for i in range(int(self.numberOfGenerations)):
             trail = self.runDeterministicMethod(i % len(self.citiesList))
             self.trailsLengths.append(self.getTrailLength(trail))
-        return self.trailsLengths
+        return self.resultsAnalyzer.analiseResult(self.trailsLengths)
 
     def runDeterministicMethod(self, startCityIndex):
         numberOfCities = len(self.citiesList)
         currentCityIndex = startCityIndex
         visitedCitiesIndexes = [startCityIndex]
-        trail = [self.citiesList[startCityIndex]]
+        trail = [startCityIndex]
 
         for i in range(numberOfCities-1):
             distances = []
@@ -31,7 +31,6 @@ class DeterministicAlgorithm(Algorithm):
             distances.sort()
             currentCityIndex = distances[0][1]
             visitedCitiesIndexes.append(currentCityIndex)
-            trail.append(self.citiesList[currentCityIndex])
+            trail.append(currentCityIndex)
 
-        trail.append(self.citiesList[startCityIndex])
         return trail

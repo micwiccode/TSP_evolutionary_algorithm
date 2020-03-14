@@ -1,10 +1,19 @@
 import statistics
+from ChartController import ChartController
 
 
 class ResultsAnalyzer:
 
-    def __init__(self, trailsLengths):
-        self.trailsLengths = trailsLengths
+    def __init__(self):
+        self.trailsLengths = []
+
+    def analiseResult(self, trailsLengths):
+        self.trailsLengths = trailsLengths.copy()
+        bestSolution = self.getBestSolution()
+        worstSolution = self.getWorstSolution()
+        avg = self.getAvg()
+        sd = self.getSd()
+        return trailsLengths, bestSolution, worstSolution, avg, sd
 
     def getBestSolution(self):
         self.trailsLengths.sort()
