@@ -9,10 +9,9 @@ class RandomAlgorithm(Algorithm):
 
     def start(self):
         super().start()
-        for i in range(int(self.numberOfGenerations)):
+        for i in range(self.numberOfGenerations):
             trail = self.runRandomMethod()
             self.trailsLengths.append(self.getTrailLength(trail))
-            print(self.trailsLengths)
         return self.resultsAnalyzer.analiseResult(self.trailsLengths)
 
     def runRandomMethod(self):

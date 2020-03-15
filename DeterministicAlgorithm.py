@@ -9,7 +9,7 @@ class DeterministicAlgorithm(Algorithm):
 
     def start(self):
         super().start()
-        for i in range(int(self.numberOfGenerations)):
+        for i in range(self.numberOfGenerations):
             trail = self.runDeterministicMethod(i % len(self.citiesList))
             self.trailsLengths.append(self.getTrailLength(trail))
         return self.resultsAnalyzer.analiseResult(self.trailsLengths)

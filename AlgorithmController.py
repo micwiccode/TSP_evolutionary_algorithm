@@ -13,7 +13,7 @@ class AlgorithmController:
         self.dataCollection = dataCollection
         self.citiesList, self.edgeWeightType = Loader.loadFile(self.dataCollection)
 
-    def startAlgorithm(self, numberOfGenerations):
+    def startAlgorithm(self, numberOfGenerations, popSize, propCross, propMutate, tourSize):
         global bestSolution, worstSolution, avg, sd, trailsLengths
         startTime = timeit.default_timer()
         if numberOfGenerations == 'N':
@@ -30,7 +30,7 @@ class AlgorithmController:
             ChartController.generateChart(trailsLengths, None, None, None)
 
         if self.method == 'Algorytm ewolucyjny':
-            evolutionAlgorithm = EvolutionAlgorithm(self.citiesList, numberOfGenerations, self.edgeWeightType)
+            evolutionAlgorithm = EvolutionAlgorithm(self.citiesList, numberOfGenerations, self.edgeWeightType, popSize, propCross, propMutate, tourSize)
             bestSolutions, worstSolutions, avgs, sds = evolutionAlgorithm.start()
             ChartController.generateChart(None, bestSolutions, worstSolutions, avgs)
 

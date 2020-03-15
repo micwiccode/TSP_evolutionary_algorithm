@@ -14,10 +14,11 @@ class ChartController:
                 plt.scatter(1, worstSolutions)
                 plt.scatter(1, avgs)
             else:
-                print('ok')
                 plt.plot(bestSolutions, label='best')
-                plt.plot(worstSolutions, label='best')
-                plt.plot(avgs, label='best')
+                plt.plot(worstSolutions, label='worst')
+                plt.plot(avgs, label='avg')
+                plt.legend(loc="upper left")
+
         else:
             if len(trailsLengths) == 1:
                 plt.scatter(1, trailsLengths)

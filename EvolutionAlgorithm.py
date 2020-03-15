@@ -7,15 +7,15 @@ from random import sample, randrange
 
 class EvolutionAlgorithm(Algorithm):
 
-    def __init__(self, citiesList, numberOfGenerations, edgeWeightType):
+    def __init__(self, citiesList, numberOfGenerations, edgeWeightType, popSize, propCross, propMutate, tourSize):
         super().__init__(citiesList, numberOfGenerations, edgeWeightType)
         self.currentPopulation = []
         self.nextPopulation = []
         self.selectedIndividuals = None
-        self.popSize = 10
-        self.crossProp = 0.7
-        self.mutateProp = 0.1
-        self.tourSize = 5
+        self.popSize = popSize
+        self.crossProp = propCross
+        self.mutateProp = propMutate
+        self.tourSize = tourSize
         self.crossType = 'OX'
         self.mutationType = 'SWAP'
         self.selectionType = 'TOUR'
@@ -27,32 +27,21 @@ class EvolutionAlgorithm(Algorithm):
     def start(self):
         super().start()
         self.initialisePopulation()
-
-        for i in range(int(self.numberOfGenerations)):
+        for i in range(self.numberOfGenerations):
             self.evaluatePopulation()
             while len(self.nextPopulation) != self.popSize:
                 firstParent = self.selectIndividual()
                 secondParent = self.selectIndividual()
-
-                if random.uniform(0, 1) > self.crossProp:
+                if random.uniform(0, 1) < self.crossProp:
                     newIndividual = self.crossOverIndividuals(firstParent, secondParent)
                 else:
                     newIndividual = firstParent
-                if random.uniform(0, 1) > self.mutateProp:
+                if random.uniform(0, 1) < self.mutateProp:
                     newIndividual = self.mutateIndividual(newIndividual)
-
                 self.nextPopulation.append(newIndividual)
-
             self.currentPopulation = self.nextPopulation
-
+            self.nextPopulation = []
         return self.bests, self.avarages, self.worsts, self.sds
-
-    # def runEvolutionMethod(self, startCityIndex):
-    #     self.initialisecurrentPopulation()
-    #     numberOfCities = len(self.citiesList)
-    #     currentCityIndex = startCityIndex
-    #     visitedCitiesIndexes = [startCityIndex]
-    #     trail = [self.citiesList[startCityIndex]]
 
     def initialisePopulation(self):
         randomAlgorithm = RandomAlgorithm(self.citiesList, self.numberOfGenerations, self.edgeWeightType)
@@ -70,24 +59,16 @@ class EvolutionAlgorithm(Algorithm):
         self.worsts.append(avg)
         self.sds.append(sd)
 
-    # def evaluateIndividual(self):
-    #     trailsLengths = []
-    #     for i in range(self.popSize):
-    #         trailsLengths[i] = self.getTrailLength(self.currentPopulation[i])
-    #     bestSolution, worstSolution, avg, _ = self.resultsAnalyzer.analiseResult(trailsLengths)
-    #     self.bests.append(bestSolution)
-    #     self.avarages.append(worstSolution)
-    #     self.worsts.append(avg)
-
     def selectIndividual(self):
         bestIndividual = None
         if self.selectionType == 'TOUR':
             individuals = sample(self.currentPopulation, self.tourSize)
-            bestIndividualFitness = 0
+            bestIndividualFitness = float("inf")
             for i in range(self.tourSize):
                 currentIndividualFitness = self.getTrailLength(individuals[i])
-                if currentIndividualFitness > bestIndividualFitness:
+                if currentIndividualFitness < bestIndividualFitness:
                     bestIndividual = individuals[i]
+                    bestIndividualFitness = currentIndividualFitness
         return bestIndividual
 
     def crossOverIndividuals(self, firstParent, secondParent):

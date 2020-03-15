@@ -27,4 +27,7 @@ class ResultsAnalyzer:
         return round(sum(self.trailsLengths) / len(self.trailsLengths), 2)
 
     def getSd(self):
-        return round(statistics.stdev(self.trailsLengths), 2)
+        if(len(self.trailsLengths)) == 1:
+            return 0
+        else:
+            return round(statistics.stdev(self.trailsLengths), 2)

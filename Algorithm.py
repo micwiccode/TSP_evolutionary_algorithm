@@ -34,6 +34,7 @@ class Algorithm:
                 distance += 2 * 6373 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
         else:
             numberOfCities = len(self.citiesList)
+
             for i in range(numberOfCities - 1):
                 distance += math.sqrt(
                     abs(self.citiesList[trail[i]][0] - self.citiesList[trail[i + 1]][0]) ** 2 + abs(

@@ -56,6 +56,15 @@ class GuiController:
         self.avgResultText = StringVar()
         self.sdResultText = StringVar()
         self.timeResultText = StringVar()
+        self.popSize = IntVar()
+        self.px = IntVar()
+        self.pm = IntVar()
+        self.tourSize = IntVar()
+        self.iterations.set('1')
+        self.popSize.set(10)
+        self.px.set(0.7)
+        self.pm.set(0.1)
+        self.tourSize.set(5)
         self.bestResultText.set('Najlepszy wynik: ')
         self.worstResultText.set('Najgorszy wynik: ')
         self.avgResultText.set('Średnia: ')
@@ -78,16 +87,15 @@ class GuiController:
         self.comboMethods.current(0)
         self.labelIterations = Label(window, text='Liczba pokoleń:', background='light blue')
         self.labelData = Label(window, text='Wybierz zestaw danych:', background='light blue')
-        self.iterations.set('1')
         self.entryIterations = Entry(window, textvariable=self.iterations)
         self.comboData = Combobox(window)
         self.comboData['values'] = (
-        'ali535', 'berlin11', 'berlin52', 'fl417', 'gr666', 'kroA100', 'kroA150', 'kroA200', 'nrw1379', 'pr2392')
+            'ali535', 'berlin11', 'berlin52', 'fl417', 'gr666', 'kroA100', 'kroA150', 'kroA200', 'nrw1379', 'pr2392')
         self.comboData.current(0)
-        self.buttonStart = Button(self.window, text='START', bg='green', fg='white', width=10, height=2,
+        self.buttonStart = Button(window, text='START', bg='green', fg='white', width=10, height=2,
                                   font='Helvetica 8 bold',
                                   command=self.startClickListener)
-        self.buttonStop = Button(self.window, text='EXIT', bg='red', fg='white', width=10, height=2,
+        self.buttonStop = Button(window, text='EXIT', bg='red', fg='white', width=10, height=2,
                                  font='Helvetica 8 bold',
                                  command=self.exitClickListener)
 
@@ -124,11 +132,15 @@ class GuiController:
         self.pmLabel.grid(column=0, row=10)
         self.tourLabel.grid(column=0, row=11)
 
-        self.popSizeEntry = Entry(window, text='Rozmiar populacji:', state='disabled').grid(column=1, row=7)
+        self.popSizeEntry = Entry(window, textvariable=self.popSize)
+        self.pxEntry = Entry(window, textvariable=self.px)
+        self.pmEntry = Entry(window, textvariable=self.pm)
+        self.tourEntry = Entry(window, textvariable=self.tourSize)
 
-        self.pxEntry = Entry(window, text='Prawd. krzyżowania:', state='disabled').grid(column=1, row=9)
-        self.pmEntry = Entry(window, text='Prawd. mutacji:', state='disabled').grid(column=1, row=10)
-        self.tourEntry = Entry(window, text='Rozmiar turnieju:', state='disabled').grid(column=1, row=11)
+        self.popSizeEntry.grid(column=1, row=7)
+        self.pxEntry.grid(column=1, row=9)
+        self.pmEntry.grid(column=1, row=10)
+        self.tourEntry.grid(column=1, row=11)
 
     def renderDefaultOptionsElements(self, window):
         self.defaultSettingsLabel = Label(window,
@@ -186,25 +198,62 @@ class GuiController:
     def startClickListener(self):
         enteredMethod = self.comboMethods.get()
         enteredDataCollection = self.comboData.get()
-        enterednumberOfGenerations = self.entryIterations.get()
+        numberOfGenerations = self.entryIterations.get()
 
-        if self.isValidInput(enterednumberOfGenerations):
+        popSize = self.popSizeEntry.get()
+        propCross = self.pxEntry.get()
+        propMutate = self.pmEntry.get()
+        tourSize = self.tourEntry.get()
+
+        if self.isValidGeneralInput(enteredMethod, numberOfGenerations, popSize, propCross, propMutate, tourSize):
             programController = AlgorithmController(enteredMethod, enteredDataCollection)
-            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(enterednumberOfGenerations)
+            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(int(numberOfGenerations),
+                                                                                          int(popSize),
+                                                                                          float(propCross),
+                                                                                          float(propMutate),
+                                                                                          int(tourSize))
             self.bestResultText.set('Najlepszy wynik: ' + str(bestSolution))
             self.worstResultText.set('Najgorszy wynik: ' + str(worstSolution))
             self.avgResultText.set('Średnia: ' + str(avg))
             self.sdResultText.set('Odchylenie standardowe: ' + str(sd))
             self.timeResultText.set('Czas: ' + str(time) + ' s')
-        else:
-            self.iterations.set('Błędna wartość')
 
-    def isValidInput(self, enterednumberOfGenerations):
-        if (enterednumberOfGenerations.isdigit() and int(enterednumberOfGenerations) >= 1) or (
-                enterednumberOfGenerations == 'N'):
+    def isValidGeneralInput(self, enteredMethod, numberOfGenerations, popSize, propCross, propMutate, tourSize):
+        if (numberOfGenerations.isdigit() and int(numberOfGenerations) >= 1) or (
+                numberOfGenerations == 'N'):
+            if enteredMethod == 'Algorytm ewolucyjny':
+                if self.isValidEAInputs(popSize, propCross, propMutate, tourSize):
+                    return True
+                else:
+                    return False
             return True
         else:
+            self.iterations.set('Błędna wartość')
             return False
+
+    def isValidEAInputs(self, popSize, propCross, propMutate, tourSize):
+        print(popSize)
+        print(propCross)
+        print(propMutate)
+        print(tourSize)
+        print(popSize.isdigit())
+        print(propCross.isdigit())
+        print(propMutate.isdigit())
+        print(tourSize.isdigit())
+        isValid = True
+        if not (popSize.isdigit() and int(popSize) >= 1):
+            self.popSize.set('Błędna wartość')
+            isValid = False
+        if not (0 <= float(propCross) <= 1):
+            self.px.set('Błędna wartość')
+            isValid = False
+        if not (0 <= float(propMutate) <= 1):
+            self.pm.set('Błędna wartość')
+            isValid = False
+        if not (tourSize.isdigit() and int(popSize) >= int(tourSize) >= 1):
+            self.tourSize.set('Błędna wartość')
+            isValid = False
+        return isValid
 
     def exitClickListener(self):
         self.window.destroy()
