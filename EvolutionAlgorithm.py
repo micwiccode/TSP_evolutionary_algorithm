@@ -2,12 +2,15 @@ import random
 
 from RandomAlgorithm import RandomAlgorithm
 from Algorithm import Algorithm
+from OXCrossOver import OXCrossOver
+from SwapMutation import SwapMutation
+from InversionMutation import InversionMutation
 from random import sample, randrange
 
 
 class EvolutionAlgorithm(Algorithm):
 
-    def __init__(self, citiesList, numberOfGenerations, edgeWeightType, popSize, propCross, propMutate, tourSize):
+    def __init__(self, citiesList, numberOfGenerations, edgeWeightType, popSize, propCross, propMutate, tourSize, mutationType):
         super().__init__(citiesList, numberOfGenerations, edgeWeightType)
         self.currentPopulation = []
         self.nextPopulation = []
@@ -17,7 +20,7 @@ class EvolutionAlgorithm(Algorithm):
         self.mutateProp = propMutate
         self.tourSize = tourSize
         self.crossType = 'OX'
-        self.mutationType = 'SWAP'
+        self.mutationType = mutationType
         self.selectionType = 'TOUR'
         self.bests = []
         self.avarages = []
@@ -74,45 +77,17 @@ class EvolutionAlgorithm(Algorithm):
     def crossOverIndividuals(self, firstParent, secondParent):
         global child
         if self.crossType == 'OX':
-            firstCut = randrange(len(firstParent))
-            secondCut = randrange(len(firstParent))
-            while firstCut == secondCut:
-                secondCut = randrange(len(firstParent))
-
-            if firstCut > secondCut:
-                temp = firstCut
-                firstCut = secondCut
-                secondCut = temp
-
-            firstParentCandidates = []
-            secondParentCandidates = []
-            child = []
-
-            for i in range(len(firstParent)):
-                if (firstCut <= i) and (i < secondCut):
-                    child.append(firstParent[i])
-                    firstParentCandidates.append(firstParent[i])
-                else:
-                    child.append(None)
-
-            for i in range(len(secondParent)):
-                if not (secondParent[i] in firstParentCandidates):
-                    secondParentCandidates.append(secondParent[i])
-
-            index = 0
-            for i in range(len(firstParent)):
-                if child[i] is None:
-                    child[i] = secondParentCandidates[index]
-                    index += 1
+            oxCrossOver = OXCrossOver(firstParent, secondParent)
+            child = oxCrossOver.cross()
         return child
 
     def mutateIndividual(self, individual):
         if self.mutationType == 'SWAP':
-            firstPosition = randrange(len(individual))
-            secondPosition = randrange(len(individual))
+            swap = SwapMutation(individual)
+            individual = swap.mutate()
 
-            while firstPosition == secondPosition:
-                secondPosition = randrange(len(individual))
+        if self.mutationType == 'INVERSION':
+            inversion = InversionMutation(individual)
+            individual = inversion.mutate()
 
-            individual[firstPosition], individual[secondPosition] = individual[secondPosition], individual[firstPosition]
-            return individual
+        return individual

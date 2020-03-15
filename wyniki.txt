@@ -1,0 +1,20 @@
+
+Metoda: Algorytm ewolucyjny
+Kolekcja danych: kroA150
+Liczba generacji: 100
+Parametry alg. genetycznego:
+----------------------------
+Rozmiar populacji: 100
+Typ selekcji: TOUR
+Rozmiar turnieju: 5
+Typ krzy¿owania: OX
+Typ mutacji: SWAP
+Prawdopodobieñstwo krzy¿owania: 0.7
+Prawdopodobieñstwo mutacji: 0.1
+Rozwi¹zania:
+----------------------------
+Najlepsze rozwi¹zanie: 122681
+Najgorsze rozwi¹zanie: 280784
+Œrednia: 159493.82
+Odchylenie standardowe: 2949.91
+Czas: 18.03

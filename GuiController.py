@@ -49,7 +49,13 @@ class GuiController:
         self.timeResultLabel = None
         self.resultsLabel = None
 
+        self.radioBtnSwap = None
+        self.radioBtnInversion = None
+        self.mutationLabel = None
+
         self.defaultSettings = IntVar()
+        self.mutationType = StringVar()
+        self.mutationType.set('SWAP')
         self.iterations = StringVar()
         self.bestResultText = StringVar()
         self.worstResultText = StringVar()
@@ -142,6 +148,13 @@ class GuiController:
         self.pmEntry.grid(column=1, row=10)
         self.tourEntry.grid(column=1, row=11)
 
+        self.mutationLabel = Label(window, text='Rodzaj mutacji:').grid(column=2, row=6)
+        self.radioBtnSwap = Radiobutton(window, text='Swap', variable=self.mutationType,
+                                        value='SWAP', command=self.checkRadio).grid(column=2, row=7)
+        self.radioBtnInversion = Radiobutton(window, text='Inwersja',
+                                             variable=self.mutationType,
+                                             value='INVERSION', command=self.checkRadio).grid(column=2, row=9)
+
     def renderDefaultOptionsElements(self, window):
         self.defaultSettingsLabel = Label(window,
                                           text='Gotowe ustawienia testowe (zgodne z instrukcja ćwiczenia):',
@@ -211,7 +224,8 @@ class GuiController:
                                                                                           int(popSize),
                                                                                           float(propCross),
                                                                                           float(propMutate),
-                                                                                          int(tourSize))
+                                                                                          int(tourSize),
+                                                                                          self.mutationType.get())
             self.bestResultText.set('Najlepszy wynik: ' + str(bestSolution))
             self.worstResultText.set('Najgorszy wynik: ' + str(worstSolution))
             self.avgResultText.set('Średnia: ' + str(avg))
@@ -232,14 +246,6 @@ class GuiController:
             return False
 
     def isValidEAInputs(self, popSize, propCross, propMutate, tourSize):
-        print(popSize)
-        print(propCross)
-        print(propMutate)
-        print(tourSize)
-        print(popSize.isdigit())
-        print(propCross.isdigit())
-        print(propMutate.isdigit())
-        print(tourSize.isdigit())
         isValid = True
         if not (popSize.isdigit() and int(popSize) >= 1):
             self.popSize.set('Błędna wartość')
