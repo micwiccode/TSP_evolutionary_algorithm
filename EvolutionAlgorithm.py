@@ -3,14 +3,15 @@ import random
 from RandomAlgorithm import RandomAlgorithm
 from Algorithm import Algorithm
 from OXCrossOver import OXCrossOver
+from CXCrossOver import CXCrossOver
 from SwapMutation import SwapMutation
 from InversionMutation import InversionMutation
-from random import sample, randrange
+from random import sample, randrange, uniform
 
 
 class EvolutionAlgorithm(Algorithm):
 
-    def __init__(self, citiesList, numberOfGenerations, edgeWeightType, popSize, propCross, propMutate, tourSize, mutationType):
+    def __init__(self, citiesList, numberOfGenerations, edgeWeightType, popSize, propCross, propMutate, tourSize, mutationType, crossType):
         super().__init__(citiesList, numberOfGenerations, edgeWeightType)
         self.currentPopulation = []
         self.nextPopulation = []
@@ -19,7 +20,7 @@ class EvolutionAlgorithm(Algorithm):
         self.crossProp = propCross
         self.mutateProp = propMutate
         self.tourSize = tourSize
-        self.crossType = 'OX'
+        self.crossType = crossType
         self.mutationType = mutationType
         self.selectionType = 'TOUR'
         self.bests = []
@@ -79,6 +80,9 @@ class EvolutionAlgorithm(Algorithm):
         if self.crossType == 'OX':
             oxCrossOver = OXCrossOver(firstParent, secondParent)
             child = oxCrossOver.cross()
+        if self.crossType == 'CX':
+            cxCrossOver = CXCrossOver(firstParent, secondParent)
+            child = cxCrossOver.cross()
         return child
 
     def mutateIndividual(self, individual):

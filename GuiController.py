@@ -9,7 +9,7 @@ class GuiController:
         self.window = Tk()
         self.window.title('SI')
         self.window.configure(background='light blue')
-        self.window.geometry('650x750+500+50')
+        self.window.geometry('750x750+500+50')
         self.window.resizable(0, 0)
 
         self.labelTitle = None
@@ -53,9 +53,15 @@ class GuiController:
         self.radioBtnInversion = None
         self.mutationLabel = None
 
+        self.crossLabel = None
+        self.radioBtnOX = None
+        self.radioBtnCX = None
+
         self.defaultSettings = IntVar()
         self.mutationType = StringVar()
         self.mutationType.set('SWAP')
+        self.crossType = StringVar()
+        self.crossType.set('OX')
         self.iterations = StringVar()
         self.bestResultText = StringVar()
         self.worstResultText = StringVar()
@@ -155,6 +161,13 @@ class GuiController:
                                              variable=self.mutationType,
                                              value='INVERSION', command=self.checkRadio).grid(column=2, row=9)
 
+        self.crossLabel = Label(window, text='Rodzaj krzyż.:').grid(column=3, row=6)
+        self.radioBtnOX = Radiobutton(window, text='OX', variable=self.crossType,
+                                        value='OX', command=self.checkRadio).grid(column=3, row=7)
+        self.radioBtnCX = Radiobutton(window, text='CX',
+                                             variable=self.crossType,
+                                             value='CX', command=self.checkRadio).grid(column=3, row=9)
+
     def renderDefaultOptionsElements(self, window):
         self.defaultSettingsLabel = Label(window,
                                           text='Gotowe ustawienia testowe (zgodne z instrukcja ćwiczenia):',
@@ -225,7 +238,8 @@ class GuiController:
                                                                                           float(propCross),
                                                                                           float(propMutate),
                                                                                           int(tourSize),
-                                                                                          self.mutationType.get())
+                                                                                          self.mutationType.get(),
+                                                                                          self.crossType.get())
             self.bestResultText.set('Najlepszy wynik: ' + str(bestSolution))
             self.worstResultText.set('Najgorszy wynik: ' + str(worstSolution))
             self.avgResultText.set('Średnia: ' + str(avg))
