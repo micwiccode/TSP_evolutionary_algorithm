@@ -233,7 +233,7 @@ class GuiController:
 
         if self.isValidGeneralInput(enteredMethod, numberOfGenerations, popSize, propCross, propMutate, tourSize):
             programController = AlgorithmController(enteredMethod, enteredDataCollection)
-            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(int(numberOfGenerations),
+            bestSolution, worstSolution, avg, sd, time = programController.startAlgorithm(numberOfGenerations,
                                                                                           int(popSize),
                                                                                           float(propCross),
                                                                                           float(propMutate),

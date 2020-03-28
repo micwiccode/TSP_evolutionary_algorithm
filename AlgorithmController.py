@@ -47,7 +47,7 @@ class AlgorithmController:
         time = round((stopTime - startTime), 2)
 
         logger = Logger(self.method, self.dataCollection, numberOfGenerations, popSize, propCross, propMutate,
-                        tourSize, mutationType, bestSolution, worstSolution, avg, sd, time)
+                        tourSize, mutationType, crossType, bestSolution, worstSolution, avg, sd, time)
         logger.logResults()
         logger.saveResultsInFile()
 

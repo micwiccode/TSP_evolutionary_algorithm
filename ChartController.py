@@ -5,9 +5,6 @@ class ChartController:
 
     @staticmethod
     def generateChart(trailsLengths, bestSolutions, worstSolutions, avgs):
-        print(bestSolutions)
-        print(worstSolutions)
-        print(avgs)
         if trailsLengths is None:
             if len(bestSolutions) == 1:
                 plt.scatter(1, bestSolutions)

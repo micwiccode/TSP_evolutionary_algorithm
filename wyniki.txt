@@ -1,20 +1,20 @@
 
 Metoda: Algorytm ewolucyjny
-Kolekcja danych: ali535
-Liczba generacji: 10
+Kolekcja danych: berlin52
+Liczba generacji: 1000
 Parametry alg. genetycznego:
 ----------------------------
-Rozmiar populacji: 10
+Rozmiar populacji: 120
 Typ selekcji: TOUR
-Rozmiar turnieju: 5
-Typ krzy¿owania: OX
-Typ mutacji: SWAP
-Prawdopodobieñstwo krzy¿owania: 0.7
-Prawdopodobieñstwo mutacji: 0.1
+Rozmiar turnieju: 15
+Typ krzy¿owania: CX
+Typ mutacji: INVERSION
+Prawdopodobieñstwo krzy¿owania: 0.75
+Prawdopodobieñstwo mutacji: 0.05
 Rozwi¹zania:
 ----------------------------
-Najlepsze rozwi¹zanie: 3185487
-Najgorsze rozwi¹zanie: 3274949
-Œrednia: 3194448.96
-Odchylenie standardowe: 5986.57
-Czas: 1.76
+Najlepsze rozwi¹zanie: 8268
+Najgorsze rozwi¹zanie: 33255
+Œrednia: 9954.28
+Odchylenie standardowe: 243.38
+Czas: 197.68

@@ -1,6 +1,6 @@
 class Logger:
     def __init__(self, method, dataCollection, numberOfGenerations, popSize, propCross, propMutate,
-                 tourSize, mutationType, bestSolution, worstSolution, avg, sd, time):
+                 tourSize, mutationType, crossType, bestSolution, worstSolution, avg, sd, time):
         self.method = method
         self.dataCollection = dataCollection
         self.numberOfGenerations = numberOfGenerations
@@ -9,6 +9,7 @@ class Logger:
         self.propMutate = propMutate
         self.tourSize = tourSize
         self.mutationType = mutationType
+        self.crossType = crossType
         self.bestSolution = bestSolution
         self.worstSolution = worstSolution
         self.avg = avg
@@ -23,7 +24,7 @@ class Logger:
             self.result += '\nParametry alg. genetycznego:\n----------------------------\nRozmiar populacji: ' + str(
                 self.popSize) + '\nTyp selekcji: TOUR'
             self.result += '\nRozmiar turnieju: ' + str(
-                self.tourSize) + '\nTyp krzyżowania: OX' + '\nTyp mutacji: ' + str(self.mutationType)
+                self.tourSize) + '\nTyp krzyżowania: ' + self.crossType + '\nTyp mutacji: ' + str(self.mutationType)
             self.result += '\nPrawdopodobieństwo krzyżowania: ' + str(
                 self.propCross) + '\nPrawdopodobieństwo mutacji: ' + str(self.propMutate)
 

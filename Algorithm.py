@@ -7,7 +7,7 @@ class Algorithm:
 
     def __init__(self, citiesList, numberOfGenerations, edgeWeightType):
         self.citiesList = citiesList
-        self.numberOfGenerations = numberOfGenerations
+        self.numberOfGenerations = int(numberOfGenerations)
         self.edgeWeightType = edgeWeightType
         self.trailsLengths = []
         self.resultsAnalyzer = ResultsAnalyzer()
