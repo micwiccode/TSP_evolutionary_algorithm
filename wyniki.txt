@@ -1,20 +1,11 @@
 
-Metoda: Algorytm ewolucyjny
-Kolekcja danych: berlin52
-Liczba generacji: 1000
-Parametry alg. genetycznego:
-----------------------------
-Rozmiar populacji: 120
-Typ selekcji: TOUR
-Rozmiar turnieju: 15
-Typ krzy¿owania: CX
-Typ mutacji: INVERSION
-Prawdopodobieñstwo krzy¿owania: 0.75
-Prawdopodobieñstwo mutacji: 0.05
+Metoda: Metoda losowa
+Kolekcja danych: berlin11
+Liczba generacji: 1
 Rozwi¹zania:
 ----------------------------
-Najlepsze rozwi¹zanie: 8268
-Najgorsze rozwi¹zanie: 33255
-Œrednia: 9954.28
-Odchylenie standardowe: 243.38
-Czas: 197.68
+Najlepsze rozwi¹zanie: 8344
+Najgorsze rozwi¹zanie: 8344
+Œrednia: 8343.62
+Odchylenie standardowe: 0
+Czas: 0.11
